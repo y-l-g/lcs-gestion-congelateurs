@@ -30,7 +30,7 @@ class StockResource extends Resource
                 Forms\Components\Select::make('produit_id')
                     ->relationship('produit', 'nom')
 
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->preload()
                     ->required()
                     ->createOptionForm([
@@ -46,7 +46,7 @@ class StockResource extends Resource
                     ->options(['Grand' => 'Grand', 'Petit' => 'Petit', 'Menimur' => 'Menimur'])
                     ->default('Grand')
                     ->required()
-                    ->searchable(),
+                    ->searchable(isIndividual: true),
                 Forms\Components\TextInput::make('poids')
                     ->numeric()
                     ->prefix('Poids en g')
@@ -54,7 +54,7 @@ class StockResource extends Resource
                 Forms\Components\Select::make('etage')
                     ->options([1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7])
                     ->default(1)
-                    ->searchable(),
+                    ->searchable(isIndividual: true),
             ]);
     }
 
@@ -63,6 +63,7 @@ class StockResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultPaginationPageOption(100)
             ->columns([
                 Tables\Columns\TextColumn::make('produit.nom')
                     ->label('Produit')
