@@ -11,7 +11,7 @@ use Filament\Models\Contracts\FilamentUser;
 class User extends Authenticatable implements FilamentUser
 {
 
-    public function canAccessFilament(): bool
+    public function canAccessPanel(Panel $panel): bool
     {
         return true;
     }
