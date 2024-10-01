@@ -71,13 +71,14 @@ class StockResource extends Resource
                     ->label('Produit')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('congelateur')
-                    ->searchable()
-                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('poids')
                     ->numeric()
                     ->sortable()
                     ->formatStateUsing(fn(string $state): string => $state . ' g'),
+                Tables\Columns\TextColumn::make('congelateur')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('etage')
                     ->numeric()
                     ->sortable(),
