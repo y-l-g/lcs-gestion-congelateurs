@@ -81,14 +81,14 @@ class StockResource extends Resource
                 Tables\Columns\TextColumn::make('produit.nom')
                     ->label('Produit')
                     ->sortable()
-                    ->searchable(isIndividual: true),
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('poids')
                     ->numeric()
                     ->sortable()
                     ->formatStateUsing(fn(string $state): string => $state . ' g'),
                 Tables\Columns\TextColumn::make('congelateur')
-                    ->searchable(isIndividual: true)
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('etage')
                     ->numeric()
@@ -97,7 +97,7 @@ class StockResource extends Resource
                     ->date()
                     ->label("Date d'entrée")
                     ->sortable()
-                    ->searchable(isIndividual: true),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('date_sortie')
                     ->label('Date de sortie')
                     ->date()
@@ -135,6 +135,11 @@ class StockResource extends Resource
                         'Grand' => 'Grand',
                         'Menimur' => 'Menimur',
                     ]),
+                SelectFilter::make('produit_id')
+                    ->relationship('produit', 'nom')
+                    ->preload()
+                    ->label('Produit')
+                    ->searchable()
 
             ], layout: FiltersLayout::AboveContent)
             ->filtersFormColumns(1);
