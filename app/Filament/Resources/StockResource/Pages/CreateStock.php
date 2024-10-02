@@ -8,6 +8,11 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateStock extends CreateRecord
 {
+
+    public function beforeCreate()
+    {
+        $this->data = null;
+    }
     protected static string $resource = StockResource::class;
 
     protected function getRedirectUrl(): string
