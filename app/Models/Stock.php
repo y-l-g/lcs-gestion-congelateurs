@@ -11,8 +11,6 @@ class Stock extends Model
 {
     use HasFactory;
 
-    use SoftDeletes;
-
     public function produit(): BelongsTo
     {
         return $this->belongsTo(Produit::class);

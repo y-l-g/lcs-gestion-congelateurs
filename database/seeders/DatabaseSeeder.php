@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder
         )
             ->create();
 
-        Stock::factory(50)->trashed()->create();
-        Stock::factory(50)->create();
+        Stock::factory(100)->create();
     }
 }

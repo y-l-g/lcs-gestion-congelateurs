@@ -14,11 +14,11 @@ return new class extends Migration {
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Produit::class)->nullable()->nullOnDelete();
+            $table->foreignId('produit_id')->constrained()->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->enum('congelateur', ['Grand', 'Petit', 'Menimur']);
             $table->integer('poids')->nullable();
             $table->enum('etage', [1, 2, 3, 4, 5, 6, 7])->nullable();
-            $table->softDeletes();
             $table->timestamps();
         });
     }
