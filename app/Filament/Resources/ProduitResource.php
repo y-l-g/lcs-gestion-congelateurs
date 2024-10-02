@@ -49,7 +49,7 @@ class ProduitResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
-                    ->modalDescription("Si vous supprimez le produit, tous les stocks associés à ce produit n'auront plus de produit associé, il est donc déconseillé de supprimer un produit sauf cas de force majeur!"),
+                    ->modalDescription("!!!Si vous supprimez le produit, tous les stocks associés seront SUPPRIMES!!!!!"),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
