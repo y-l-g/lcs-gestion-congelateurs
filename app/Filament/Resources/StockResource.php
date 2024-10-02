@@ -6,12 +6,16 @@ use App\Filament\Resources\StockResource\Pages;
 use App\Filament\Resources\StockResource\RelationManagers;
 use App\Models\Produit;
 use App\Models\Stock;
+use Carbon\Carbon;
 use Filament\Actions\DeleteAction;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -115,8 +119,20 @@ class StockResource extends Resource
                 Filter::make('date_sortie')
                     ->label('Produits en stock')
                     ->query(fn(Builder $query): Builder => $query->whereNull('date_sortie'))
-                    ->default()
-            ]);
+                    ->default(),
+                Filter::make('date_entrée')
+                    ->label("Produits entrés il y a plus d'un an")
+                    ->query(fn(Builder $query): Builder => $query->whereDate('date_entree', '<', Carbon::now()->subYear())),
+                SelectFilter::make('congelateur')
+                    ->label('Congelateur')
+                    ->options([
+                        'Petit' => 'Petit',
+                        'Grand' => 'Grand',
+                        'Menimur' => 'Menimur',
+                    ]),
+
+            ], layout: FiltersLayout::AboveContent)
+            ->filtersFormColumns(1);
     }
 
     public static function getRelations(): array
