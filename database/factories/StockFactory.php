@@ -22,7 +22,9 @@ class StockFactory extends Factory
             'congelateur' => fake()->randomElement(['Grand', 'Petit', 'Menimur']),
             'poids' => fake()->numberBetween(1, 50) * 50,
             'etage' => fake()->randomElement([1, 2, 3, 4, 5, 6, 7]),
+            'date_entree' => fake()->dateTimeBetween('-4 year', 'now'),
             'created_at' => fake()->dateTimeBetween('-4 year', 'now')
         ];
     }
+
 }

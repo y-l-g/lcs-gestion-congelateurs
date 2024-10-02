@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->enum('congelateur', ['Grand', 'Petit', 'Menimur']);
             $table->integer('poids')->nullable();
             $table->enum('etage', [1, 2, 3, 4, 5, 6, 7])->nullable();
+            $table->date('date_entree')->nullable();
+            $table->date('date_sortie')->nullable();
             $table->timestamps();
         });
     }

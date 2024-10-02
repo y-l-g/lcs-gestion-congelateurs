@@ -15,6 +15,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Filters\Filter;
 
 
 class StockResource extends Resource
@@ -55,6 +56,11 @@ class StockResource extends Resource
                     ->options([1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7])
                     ->default(1)
                     ->searchable(),
+                Forms\Components\DatePicker::make('date_entree')
+                    ->date()
+                    ->default('now'),
+                Forms\Components\DatePicker::make('date_sortie')
+                    ->date()
             ]);
     }
 
@@ -82,13 +88,13 @@ class StockResource extends Resource
                 Tables\Columns\TextColumn::make('etage')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('date_entree')
                     ->date()
-                    ->label('Ajouté le')
+                    ->label("Date d'entrée")
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Modifié le')
+                Tables\Columns\TextColumn::make('date_sortie')
+                    ->label('Date de sortie')
                     ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -104,6 +110,12 @@ class StockResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
+            ])
+            ->filters([
+                Filter::make('date_sortie')
+                    ->label('Produits en stock')
+                    ->query(fn(Builder $query): Builder => $query->whereNull('date_sortie'))
+                    ->default()
             ]);
     }
 

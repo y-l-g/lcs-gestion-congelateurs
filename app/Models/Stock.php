@@ -30,4 +30,9 @@ class Stock extends Model
             'created_at' => 'datetime:d/m/Y',
         ];
     }
+
+    public function getIsOut(): bool
+    {
+        return ($this->date_sortie === null);
+    }
 }
