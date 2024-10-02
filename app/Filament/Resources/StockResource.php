@@ -121,8 +121,10 @@ class StockResource extends Resource
                     ->query(fn(Builder $query): Builder => $query->whereNull('date_sortie'))
                     ->default(),
                 Filter::make('date_entrée')
-                    ->label("Produits entrés il y a plus d'un an")
-                    ->query(fn(Builder $query): Builder => $query->whereDate('date_entree', '<', Carbon::now()->subYear())),
+                    ->label("Produits entrés il y a plus d'un an ou sans date d'entree")
+                    ->query(fn(Builder $query): Builder => $query
+                        ->whereDate('date_entree', '<', Carbon::now()->subYear())
+                        ->orWhereNull('date_entree')),
                 SelectFilter::make('congelateur')
                     ->label('Congelateur')
                     ->options([
