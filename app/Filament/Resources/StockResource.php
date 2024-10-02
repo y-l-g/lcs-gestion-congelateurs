@@ -97,7 +97,7 @@ class StockResource extends Resource
                     ->label('Date de sortie')
                     ->date()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(),
             ])
 
             ->actions([
