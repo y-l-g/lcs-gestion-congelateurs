@@ -20,6 +20,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Actions\ReplicateAction;
 
 
 class StockResource extends Resource
@@ -107,6 +108,8 @@ class StockResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                ReplicateAction::make()
+                    ->requiresConfirmation(false)
             ])
 
             ->bulkActions([
