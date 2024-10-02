@@ -117,7 +117,7 @@ class StockResource extends Resource
             ])
             ->filters([
                 Filter::make('date_sortie')
-                    ->label('Produits en stock')
+                    ->label('Ne pas afficher les produits sortis')
                     ->query(fn(Builder $query): Builder => $query->whereNull('date_sortie'))
                     ->default(),
                 Filter::make('date_entrée')
