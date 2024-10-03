@@ -15,6 +15,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
+use Filament\Tables\Columns\TextInputColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
@@ -101,11 +102,9 @@ class StockResource extends Resource
                     ->label("Date d'entrée")
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('date_sortie')
+                TextInputColumn::make('date_sortie')
+                    ->type('date')
                     ->label('Date de sortie')
-                    ->date()
-                    ->sortable()
-                    ->toggleable(),
             ])
 
             ->actions([
