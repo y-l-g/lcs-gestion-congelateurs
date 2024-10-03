@@ -36,7 +36,7 @@ class ProduitResource extends Resource
     {
         return $table
             ->paginated([10, 25, 50, 100, 'all'])
-            ->defaultPaginationPageOption(100)
+            ->defaultPaginationPageOption(50)
             ->columns([
                 Tables\Columns\TextColumn::make('nom')
                     ->label('Produit')

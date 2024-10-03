@@ -80,7 +80,7 @@ class StockResource extends Resource
         return $table
             ->defaultSort('created_at', 'desc')
             ->paginated([10, 25, 50, 100, 'all'])
-            ->defaultPaginationPageOption(100)
+            ->defaultPaginationPageOption(50)
             ->columns([
                 Tables\Columns\TextColumn::make('produit.nom')
                     ->label('Produit')
