@@ -105,6 +105,8 @@ class StockResource extends Resource
                 TextInputColumn::make('date_sortie')
                     ->type('date')
                     ->label('Date de sortie')
+                    ->sortable()
+                    ->searchable(),
             ])
 
             ->actions([
