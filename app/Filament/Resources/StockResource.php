@@ -11,6 +11,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
@@ -19,6 +20,7 @@ use Filament\Tables\Columns\TextInputColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -69,7 +71,8 @@ class StockResource extends Resource
                     ->default('now'),
                 Forms\Components\DatePicker::make('date_sortie')
                     ->date(),
-                Checkbox::make('fruit'),
+                Toggle::make('fruit')
+                ,
             ]);
     }
 
@@ -110,33 +113,43 @@ class StockResource extends Resource
             ])
 
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label(''),
+                Tables\Actions\DeleteAction::make()
+                    ->label(''),
                 ReplicateAction::make()
                     ->requiresConfirmation(false)
+                    ->label(''),
             ])
 
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ])
             ->filters([
-                Filter::make('date_sortie')
-                    ->label('Ne pas afficher les produits sortis')
-                    ->query(fn(Builder $query): Builder => $query->whereNull('date_sortie'))
+                TernaryFilter::make('date_sortie')
+                    ->label('Produits sortis')
+                    ->placeholder('Afficher tous les produits')
+                    ->trueLabel('Ne pas afficher les produits sortis')
+                    ->falseLabel('Afficher seulement les produits sortis')
+                    ->queries(
+                        true: fn(Builder $query): Builder => $query->whereNull('date_sortie'),
+                        false: fn(Builder $query): Builder => $query->whereNotNull('date_sortie'),
+                        blank: fn(Builder $query) => $query
+                    )
                     ->default(),
                 Filter::make('date_entrée')
-                    ->label("Produits entrés il y a plus d'un an ou sans date d'entree")
+                    ->toggle()
+                    ->label("Seulement les produits entrés il y a plus d'un an")
                     ->query(fn(Builder $query): Builder => $query
                         ->whereDate('date_entree', '<', Carbon::now()->subYear())
                         ->orWhereNull('date_entree')),
                 Filter::make('fruit')
+                    ->toggle()
                     ->label("Seulement les fruits")
                     ->query(fn(Builder $query): Builder => $query
                         ->where('fruit', "=", true)),
                 SelectFilter::make('congelateur')
+                    ->multiple()
                     ->label('Congelateur')
                     ->options([
                         'Petit' => 'Petit',
@@ -144,6 +157,7 @@ class StockResource extends Resource
                         'Menimur' => 'Menimur',
                     ]),
                 SelectFilter::make('produit_id')
+                    ->multiple()
                     ->relationship('produit', 'nom')
                     ->preload()
                     ->label('Produit')
