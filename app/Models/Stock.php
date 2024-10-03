@@ -21,18 +21,21 @@ class Stock extends Model
         'poids',
         'etage',
         'date_entree',
-        'date_sortie'
+        'date_sortie',
+        'fruit'
     ];
 
     protected function casts(): array
     {
         return [
             'created_at' => 'datetime:d/m/Y',
+            'fruit' => 'boolean',
         ];
     }
 
     public function getIsOut(): bool
     {
+
         return ($this->date_sortie === null);
     }
 }

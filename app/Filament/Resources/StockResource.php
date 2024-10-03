@@ -10,10 +10,12 @@ use Carbon\Carbon;
 use Filament\Actions\DeleteAction;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -65,7 +67,8 @@ class StockResource extends Resource
                     ->date()
                     ->default('now'),
                 Forms\Components\DatePicker::make('date_sortie')
-                    ->date()
+                    ->date(),
+                Checkbox::make('fruit'),
             ]);
     }
 
@@ -82,7 +85,6 @@ class StockResource extends Resource
                     ->label('Produit')
                     ->sortable()
                     ->searchable(),
-
                 Tables\Columns\TextColumn::make('poids')
                     ->numeric()
                     ->sortable()
@@ -93,6 +95,7 @@ class StockResource extends Resource
                 Tables\Columns\TextColumn::make('etage')
                     ->numeric()
                     ->sortable(),
+                ToggleColumn::make('fruit'),
                 Tables\Columns\TextColumn::make('date_entree')
                     ->date()
                     ->label("Date d'entrée")
@@ -128,6 +131,10 @@ class StockResource extends Resource
                     ->query(fn(Builder $query): Builder => $query
                         ->whereDate('date_entree', '<', Carbon::now()->subYear())
                         ->orWhereNull('date_entree')),
+                Filter::make('fruit')
+                    ->label("Seulement les fruits")
+                    ->query(fn(Builder $query): Builder => $query
+                        ->where('fruit', "=", true)),
                 SelectFilter::make('congelateur')
                     ->label('Congelateur')
                     ->options([
