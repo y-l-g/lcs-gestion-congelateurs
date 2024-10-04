@@ -32,7 +32,9 @@ class StockResource extends Resource
 {
     protected static ?string $model = Stock::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Stocks';
+
+    protected static ?string $navigationIcon = 'heroicon-o-home';
 
     public static function form(Form $form): Form
     {

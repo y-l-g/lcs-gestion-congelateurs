@@ -25,7 +25,8 @@ class AdminPanelProvider extends PanelProvider
     {
         app()->setLocale('fr');
         return $panel
-            ->default()
+            ->brandName('LCS')
+            ->topNavigation()
             ->id('admin')
             ->path('')
             ->login()
