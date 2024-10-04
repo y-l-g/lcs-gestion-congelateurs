@@ -137,12 +137,20 @@ class StockResource extends Resource
                         blank: fn(Builder $query) => $query
                     )
                     ->default(),
-                Filter::make('date_entrée')
-                    ->toggle()
-                    ->label("Seulement les produits entrés il y a plus d'un an")
-                    ->query(fn(Builder $query): Builder => $query
-                        ->whereDate('date_entree', '<', Carbon::now()->subYear())
-                        ->orWhereNull('date_entree')),
+                TernaryFilter::make('date_entrée')
+                    ->label("Date d'entrée")
+                    ->placeholder('Depuis toujours')
+                    ->trueLabel('Plus de 6 mois')
+                    ->falseLabel("Plus d'un an")
+                    ->queries(
+                        true: fn(Builder $query): Builder => $query
+                            ->whereDate('date_entree', '<', Carbon::now()->subMonths(6))
+                            ->orWhereNull('date_entree'),
+                        false: fn(Builder $query): Builder => $query
+                            ->whereDate('date_entree', '<', Carbon::now()->subYear())
+                            ->orWhereNull('date_entree'),
+                        blank: fn(Builder $query) => $query
+                    ),
                 Filter::make('fruit')
                     ->toggle()
                     ->label("Seulement les fruits")
@@ -150,7 +158,7 @@ class StockResource extends Resource
                         ->where('fruit', "=", true)),
                 SelectFilter::make('congelateur')
                     ->multiple()
-                    ->label('Congelateur')
+                    ->label('Congelateurs')
                     ->options([
                         'Petit' => 'Petit',
                         'Grand' => 'Grand',
@@ -160,11 +168,9 @@ class StockResource extends Resource
                     ->multiple()
                     ->relationship('produit', 'nom')
                     ->preload()
-                    ->label('Produit')
+                    ->label('Produits')
                     ->searchable()
-
-            ], layout: FiltersLayout::AboveContent)
-            ->filtersFormColumns(1);
+            ]);
     }
 
     public static function getRelations(): array
