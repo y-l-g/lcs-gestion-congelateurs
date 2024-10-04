@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\StockResource\Pages;
 
 use App\Filament\Resources\StockResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Database\Eloquent\Model;
 
 class CreateStock extends CreateRecord
 {
@@ -18,5 +18,14 @@ class CreateStock extends CreateRecord
     protected function getRedirectUrl(): string
     {
         return $this->previousUrl ?? $this->getResource()::getUrl('index');
+    }
+
+    protected function handleRecordCreation(array $data): Model
+    {
+        $model = static::getModel();
+        for ($i = 1; $i <= $data['quant']; $i++) {
+            $model = static::getModel()::create($data);
+        }
+        return $model;
     }
 }

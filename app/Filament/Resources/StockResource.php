@@ -11,11 +11,13 @@ use Filament\Actions\DeleteAction;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextInputColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -39,42 +41,75 @@ class StockResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+            ->columns(4)
             ->schema([
-                Forms\Components\Select::make('produit_id')
-                    ->relationship('produit', 'nom')
-
-                    ->searchable()
-                    ->preload()
-                    ->required()
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('nom')
+                Fieldset::make("C'est quoi ?")
+                    ->columns(6)
+                    ->columnSpan(2)
+                    ->schema([
+                        Forms\Components\Select::make('produit_id')
+                            ->columnSpan(3)
+                            ->relationship('produit', 'nom')
+                            ->placeholder("produit")
+                            ->searchable()
+                            ->preload()
                             ->required()
-                            ->maxLength(255),
-                    ])
-                    ->editOptionForm([
-                        Forms\Components\TextInput::make('nom')
-                            ->required(),
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('nom')
+                                    ->required()
+                                    ->maxLength(255),
+                            ])
+                            ->editOptionForm([
+                                Forms\Components\TextInput::make('nom')
+                                    ->required(),
+                            ]),
+                        Forms\Components\TextInput::make('poids')
+                            ->columnSpan(2)
+                            ->numeric()
+                            ->suffix('g'),
+                        Toggle::make('fruit')
+                            ->columnSpan(1)
+                            ->inline(false)
+
+                        ,
                     ]),
-                Forms\Components\Select::make('congelateur')
-                    ->options(['Grand' => 'Grand', 'Petit' => 'Petit', 'Menimur' => 'Menimur'])
-                    ->default('Grand')
-                    ->required()
-                    ->searchable(),
-                Forms\Components\TextInput::make('poids')
-                    ->numeric()
-                    ->prefix('Poids en g')
-                    ->suffix('g'),
-                Forms\Components\Select::make('etage')
-                    ->options([1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7])
-                    ->default(1)
-                    ->searchable(),
-                Forms\Components\DatePicker::make('date_entree')
-                    ->date()
-                    ->default('now'),
-                Forms\Components\DatePicker::make('date_sortie')
-                    ->date(),
-                Toggle::make('fruit')
-                ,
+
+                Fieldset::make("C'est où ?")
+                    ->columnSpan(2)
+                    ->schema([
+                        Forms\Components\Select::make('congelateur')
+                            ->options(['Grand' => 'Grand', 'Petit' => 'Petit', 'Menimur' => 'Menimur'])
+                            ->default('Grand')
+                            ->required()
+                            ->searchable(),
+
+                        Forms\Components\Select::make('etage')
+                            ->options([1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7])
+                            ->default(1)
+                            ->searchable(),
+                    ]),
+
+                Fieldset::make("C'est quand ?")
+                    ->columnSpan(2)
+                    ->schema([
+                        Forms\Components\DatePicker::make('date_entree')
+                            ->date()
+                            ->default('now'),
+                        Forms\Components\DatePicker::make('date_sortie')
+                            ->date(),
+                    ]),
+                Fieldset::make("Y'en a combien ?")
+                    ->hiddenOn('edit')
+                    ->columnSpan(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('quant')
+                            ->numeric()
+                            ->default(1)
+                            ->label("Quantité"),
+                    ]),
+
+
+
             ]);
     }
 
@@ -98,20 +133,21 @@ class StockResource extends Resource
                 Tables\Columns\TextColumn::make('congelateur')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('etage')
-                    ->numeric()
-                    ->sortable(),
+                SelectColumn::make('etage')
+                    ->options([
+                        '1' => '1',
+                        '2' => '2',
+                        '3' => '3',
+                        '4' => '4',
+                        '5' => '5',
+                        '6' => '6',
+                        '7' => '7',
+                    ])
+                    ->sortable()
+                    ->width('1%'),
                 ToggleColumn::make('fruit'),
-                Tables\Columns\TextColumn::make('date_entree')
-                    ->date()
-                    ->label("Date d'entrée")
-                    ->sortable()
-                    ->searchable(),
-                TextInputColumn::make('date_sortie')
-                    ->type('date')
-                    ->label('Date de sortie')
-                    ->sortable()
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('date_entree')->date()->label("Date d'entrée")->sortable()->searchable(),
+                TextInputColumn::make('date_sortie')->type('date')->label('Date de sortie')->sortable()->searchable(),
             ])
 
             ->actions([
