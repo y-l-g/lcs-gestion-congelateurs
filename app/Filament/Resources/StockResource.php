@@ -117,11 +117,12 @@ class StockResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label(''),
-                Tables\Actions\DeleteAction::make()
-                    ->label(''),
                 ReplicateAction::make()
                     ->requiresConfirmation(false)
                     ->label(''),
+                Tables\Actions\DeleteAction::make()
+                    ->label(''),
+
             ])
 
             ->bulkActions([

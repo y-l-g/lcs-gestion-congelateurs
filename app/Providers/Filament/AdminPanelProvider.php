@@ -25,14 +25,15 @@ class AdminPanelProvider extends PanelProvider
     {
         app()->setLocale('fr');
         return $panel
-            ->brandName('LCS')
+            ->brandLogo(asset('images/logo.png'))
+            ->brandLogoHeight('3rem')
             ->topNavigation()
             ->id('admin')
             ->path('')
             ->login()
             ->passwordReset()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => '#8DB324',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
