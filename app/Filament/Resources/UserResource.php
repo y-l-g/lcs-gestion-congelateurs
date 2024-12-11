@@ -35,7 +35,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('email')
                     ->label('Email')
                     ->email()
-                    ->unique(fn(string $context): bool => $context === 'create')
+                    ->unique(ignoreRecord: true)
                     ->disabled(fn(string $context): bool => $context === 'edit')
                     ->dehydrated(fn(string $context): bool => $context === 'create')
                     ->required(),
