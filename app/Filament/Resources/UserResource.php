@@ -47,6 +47,10 @@ class UserResource extends Resource
                     ->maxLength(255)
                     ->same('password')
                     ->label('Confirmer le mot de passe'),
+                Forms\Components\Toggle::make('is_admin')
+                    ->label('Admin')
+                    ->columnSpan(1)
+                    ->inline(false)
             ]);
     }
 

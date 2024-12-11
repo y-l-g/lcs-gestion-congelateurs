@@ -144,10 +144,17 @@ class StockResource extends Resource
                         '7' => '7',
                     ])
                     ->sortable()
-                    ->width('1%'),
-                ToggleColumn::make('fruit'),
-                Tables\Columns\TextColumn::make('date_entree')->date()->label("Date d'entrée")->sortable()->searchable(),
-                TextInputColumn::make('date_sortie')->type('date')->label('Date de sortie')->sortable()->searchable(),
+                    ->width('1%')
+                    ->disabled(!auth()->user()->is_admin),
+                ToggleColumn::make('fruit')
+                    ->disabled(!auth()->user()->is_admin),
+                Tables\Columns\TextColumn::make('date_entree')
+                    ->date()
+                    ->label("Date d'entrée")
+                    ->sortable()
+                    ->searchable()
+                    ->disabled(!auth()->user()->is_admin),
+                TextInputColumn::make('date_sortie')->type('date')->label('Date de sortie')->sortable()->searchable()->disabled(!auth()->user()->is_admin),
             ])
 
             ->actions([
@@ -155,14 +162,16 @@ class StockResource extends Resource
                     ->label(''),
                 ReplicateAction::make()
                     ->requiresConfirmation(false)
-                    ->label(''),
+                    ->label('')
+                    ->hidden(!auth()->user()->is_admin),
                 Tables\Actions\DeleteAction::make()
                     ->label(''),
 
             ])
 
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()
+                    ->hidden(!auth()->user()->is_admin),
             ])
             ->filters([
                 TernaryFilter::make('date_sortie')

@@ -29,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogoHeight('3rem')
             ->topNavigation()
             ->id('admin')
+            ->default()
             ->path('')
             ->login()
             ->passwordReset()
