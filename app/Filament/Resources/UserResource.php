@@ -38,12 +38,14 @@ class UserResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('password')
                     ->label('Mot de Passe')
-                    ->required()
+                    ->dehydrated(fn($state) => filled($state))
+                    ->required(fn(string $context): bool => $context === 'create')
                     ->maxLength(255)
                     ->password(),
                 Forms\Components\TextInput::make('password_confirmation')
                     ->password()
-                    ->required()
+                    ->dehydrated(fn($state) => filled($state))
+                    ->required(fn(string $context): bool => $context === 'create')
                     ->maxLength(255)
                     ->same('password')
                     ->label('Confirmer le mot de passe'),
