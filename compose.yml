@@ -52,6 +52,7 @@ services:
     command: sh -c 'php artisan octane:frankenphp --host=0.0.0.0'
     environment:
       - APP_NAME=congel
+      - XDG_CONFIG_HOME=/app
     secrets:
       - congel_DB_DATABASE
       - congel_DB_PASSWORD
