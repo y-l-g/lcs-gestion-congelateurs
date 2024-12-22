@@ -79,4 +79,4 @@ RUN chmod -R 775 /app/bootstrap/cache
 
 RUN chown -R ${USER}:${USER} /app
 
-# USER ${USER}
+USER ${USER}
