@@ -41,7 +41,7 @@ services:
   # OCTANE:FRANKENPHP
   #################################################
   app:
-    image: ghcr.io/y-l-g/lcs-gestion-congelateurs
+    image: ghcr.io/y-l-g/lcs-gestion-congelateurs:main
     volumes:
       - congel_app_data:/data
       - congel_app_config:/config
