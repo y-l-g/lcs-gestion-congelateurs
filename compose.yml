@@ -41,7 +41,7 @@ services:
   # OCTANE:FRANKENPHP
   #################################################
   app:
-    image: ghcr.io/y-l-g/chat-laravel-inertia-primevue:main
+    image: ghcr.io/y-l-g/lcs-gestion-congelateurs
     volumes:
       - congel_app_data:/data
       - congel_app_config:/config
