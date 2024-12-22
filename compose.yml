@@ -1,0 +1,99 @@
+services:
+  #################################################
+  # DB (MySQL)
+  #################################################
+  db:
+    image: "mysql:8.0"
+    volumes:
+      - congel_mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE_FILE: /run/secrets/congel_DB_DATABASE
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/congel_DB_PASSWORD
+      MYSQL_PASSWORD_FILE: /run/secrets/congel_DB_PASSWORD
+      MYSQL_USER_FILE: /run/secrets/congel_DB_USERNAME
+    secrets:
+      - congel_DB_DATABASE
+      - congel_DB_PASSWORD
+      - congel_DB_USERNAME
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      start_period: 20s
+    networks:
+      - congel
+  ##################################################
+  # REDIS
+  ##################################################
+  redis:
+    image: "redis:7.4"
+    volumes:
+      - "congel_redis_data:/data"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      start_period: 20s
+    environment:
+      - REDIS_PASSWORD_FILE=/run/secrets/congel_REDIS_PASSWORD
+    secrets:
+      - congel_REDIS_PASSWORD
+    command: sh -c 'redis-server --appendonly yes --requirepass $$(cat /run/secrets/congel_REDIS_PASSWORD | tr -d " \t\n\r")'
+    networks:
+      - congel
+  #################################################
+  # OCTANE:FRANKENPHP
+  #################################################
+  app:
+    image: ghcr.io/y-l-g/chat-laravel-inertia-primevue:main
+    volumes:
+      - congel_app_data:/data
+      - congel_app_config:/config
+      - congel_storage:/app/storage
+    healthcheck:
+      test: ["CMD", "php", "artisan", "octane:status"]
+      start_period: 20s
+    command: sh -c 'php artisan octane:frankenphp --host=0.0.0.0'
+    environment:
+      - APP_NAME=congel
+    secrets:
+      - congel_DB_DATABASE
+      - congel_DB_PASSWORD
+      - congel_DB_USERNAME
+      - congel_REDIS_PASSWORD
+      - congel_APP_URL
+      - congel_APP_KEY
+      - congel_APP_DOMAIN
+    entrypoint: start-container
+    networks:
+      - congel
+      - caddy_network
+  ##################################################
+  # VOLUMES
+  ##################################################
+volumes:
+  congel_app_data:
+  congel_app_config:
+  ##################################################
+  congel_mysql_data:
+  congel_redis_data:
+  ########################
+  congel_storage:
+  ##################################################
+secrets:
+  congel_DB_DATABASE:
+    external: true
+  congel_DB_PASSWORD:
+    external: true
+  congel_DB_USERNAME:
+    external: true
+  congel_REDIS_PASSWORD:
+    external: true
+  congel_APP_URL:
+    external: true
+  congel_APP_KEY:
+    external: true
+  congel_APP_DOMAIN:
+    external: true
+networks:
+  congel:
+    driver: overlay
+    attachable: true
+  caddy_network:
+    external: true
