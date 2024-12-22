@@ -78,4 +78,4 @@ RUN chown -R ${USER}:${USER} /app
 RUN chmod -R 775 /app/storage
 RUN chmod -R 775 /app/bootstrap/cache
 
-USER ${USER}
+# USER ${USER}
