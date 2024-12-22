@@ -49,7 +49,7 @@ services:
     healthcheck:
       test: ["CMD", "php", "artisan", "octane:status"]
       start_period: 20s
-    # command: sh -c 'php artisan octane:frankenphp --host=0.0.0.0'
+    command: sh -c 'php artisan octane:frankenphp --host=0.0.0.0'
     environment:
       - APP_NAME=congel
     secrets:
@@ -60,7 +60,7 @@ services:
       - congel_APP_URL
       - congel_APP_KEY
       - congel_APP_DOMAIN
-    # entrypoint: start-container
+    entrypoint: start-container
     networks:
       - congel
       - caddy_network
