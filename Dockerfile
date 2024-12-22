@@ -65,7 +65,7 @@ RUN composer install \
     --no-ansi \
     --no-scripts
 
-COPY --link --chown=${USER}:${USER} . .
+COPY --link . .
 
 RUN composer dump-autoload \
     # --no-dev \
@@ -73,5 +73,7 @@ RUN composer dump-autoload \
     --optimize \
     --no-ansi \
     && composer clear-cache
+
+RUN chown ${USER}:${USER} -R /app
 
 USER ${USER}
