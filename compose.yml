@@ -60,7 +60,7 @@ services:
       - congel_APP_URL
       - congel_APP_KEY
       - congel_APP_DOMAIN
-    entrypoint: start-container
+    # entrypoint: start-container
     networks:
       - congel
       - caddy_network
