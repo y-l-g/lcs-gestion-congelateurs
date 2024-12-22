@@ -65,10 +65,6 @@ RUN composer install \
     --no-ansi \
     --no-scripts
 
-COPY --link package.json package-lock.json ./
-
-RUN npm ci
-
 COPY --link --chown=${USER}:${USER} . .
 
 RUN composer dump-autoload \
