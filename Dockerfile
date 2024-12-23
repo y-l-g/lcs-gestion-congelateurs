@@ -6,9 +6,7 @@ FROM dunglas/frankenphp:1.3
 
 ARG USER=youenn
 
-RUN \
-    useradd ${USER}; \
-    chown -R ${USER}:${USER} /data/caddy && chown -R ${USER}:${USER} /config/caddy
+RUN useradd ${USER};
 
 WORKDIR /app
 
@@ -74,8 +72,8 @@ RUN composer dump-autoload \
     --no-ansi \
     && composer clear-cache
 
-RUN chmod -R 775 {/app/storage, /app/bootstrap/cache, /data, /config}
+RUN chmod -R 775 /app/storage /app/bootstrap/cache /data /config
 
-RUN chown -R ${USER}:${USER} {/app, /data, /config}
+RUN chown -R ${USER}:${USER} /app /data /config
 
 USER ${USER}
