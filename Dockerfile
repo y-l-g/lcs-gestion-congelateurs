@@ -72,8 +72,13 @@ RUN composer dump-autoload \
     --no-ansi \
     && composer clear-cache
 
-RUN chmod -R 775 /app/storage /app/bootstrap/cache /data /config
+RUN chmod -R 775 /app/storage
+RUN chmod -R 775 /app/bootstrap/cache
+RUN chmod -R 775 /data
+RUN chmod -R 775 /config
 
-RUN chown -R ${USER}:${USER} /app /data /config
+RUN chown -R ${USER}:${USER} /app
+RUN chown -R ${USER}:${USER} /data
+RUN chown -R ${USER}:${USER} /config
 
 USER ${USER}
