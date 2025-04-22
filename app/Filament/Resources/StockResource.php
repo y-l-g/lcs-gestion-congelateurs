@@ -155,6 +155,12 @@ class StockResource extends Resource
                     ->searchable()
                     ->disabled(!auth()->user()->is_admin),
                 TextInputColumn::make('date_sortie')->type('date')->label('Date de sortie')->sortable()->searchable()->disabled(!auth()->user()->is_admin),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->date()
+                    ->label("Modifié le")
+                    ->sortable()
+                    ->searchable()
+                    ->disabled(!auth()->user()->is_admin),
             ])
 
             ->actions([
