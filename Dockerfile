@@ -19,7 +19,6 @@ RUN set -eux; \
     gettext \
     procps \
     nodejs \
-    cron \
     npm \
     mysql-client \
     && apt-get clean
