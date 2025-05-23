@@ -19,9 +19,6 @@ RUN set -eux; \
     procps \
     nodejs \
     npm \
-    && apt-get install -y --no-install-recommends \
-    cron \
-    mysql-client \
     && apt-get clean
 
 RUN set -eux; \
