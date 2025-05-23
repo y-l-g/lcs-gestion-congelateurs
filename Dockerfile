@@ -20,7 +20,7 @@ RUN set -eux; \
     procps \
     nodejs \
     npm \
-    mysql-client \
+    # mysql-client \
     && apt-get clean
 
 RUN set -eux; \
