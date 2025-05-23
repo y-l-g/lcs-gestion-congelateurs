@@ -2,7 +2,7 @@
 # FrankenPHP
 ###########################################
 
-FROM dunglas/frankenphp:1.6 AS common
+FROM dunglas/frankenphp:1.6
 
 ARG USER=youenn
 
@@ -20,7 +20,7 @@ RUN set -eux; \
     procps \
     nodejs \
     npm \
-    mysql-client \
+    # mysql-client \
     && apt-get clean
 
 RUN set -eux; \
