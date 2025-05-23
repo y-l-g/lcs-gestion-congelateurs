@@ -90,6 +90,12 @@ secrets:
     external: true
   congel_FTP_PASSWORD:
     external: true
+  congel_MAIL_FROM_ADDRESS:
+    external: true
+  congel_MAIL_USERNAME:
+    external: true
+  congel_MAIL_PASSWORD:
+    external: true
 
 networks:
   congel:
