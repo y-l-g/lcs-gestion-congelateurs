@@ -32,8 +32,8 @@ services:
   cron:
     image: ghcr.io/y-l-g/lcs-gestion-congelateurs:main
     volumes:
-      - cron_data:/data
-      - cron_config:/config
+      - congel_cron_data:/data
+      - congel_cron_config:/config
     command: ["cron", "-f"]
     healthcheck:
       test: ["CMD", "pgrep", "-f", "cron"]
