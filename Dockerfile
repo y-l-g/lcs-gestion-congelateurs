@@ -19,7 +19,9 @@ RUN set -eux; \
     gettext \
     procps \
     nodejs \
+    cron \
     npm \
+    mysql-client \
     && apt-get clean
 
 RUN set -eux; \
@@ -30,9 +32,13 @@ RUN set -eux; \
     redis \
     opcache \
     intl \
-    zip
+    zip \
+    ftp
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
+
+RUN echo "* * * * * root /usr/local/bin/php /app/artisan schedule:run >> /var/log/cron.log 2>&1" > /etc/cron.d/schedule
+RUN chmod 0644 /etc/cron.d/schedule
 
 #####################################################
 
@@ -50,6 +56,7 @@ COPY <<EOT $PHP_INI_DIR/app.conf.d/php.ini
 EOT
 
 #####################################################
+
 COPY --link --chown=${USER}:${USER} --chmod=755 start-container.sh /usr/local/bin/start-container
 
 ENV APP_ENV=prod

@@ -20,6 +20,34 @@ services:
       - congel_APP_URL
       - congel_APP_KEY
       - congel_APP_DOMAIN
+      - congel_FTP_HOST
+      - congel_FTP_USERNAME
+      - congel_FTP_PASSWORD
+    entrypoint: start-container
+    networks:
+      - congel
+      ##################################################
+  # CRON
+  ##################################################
+  cron:
+    image: ghcr.io/y-l-g/lcs-gestion-congelateurs:main
+    volumes:
+      - cron_data:/data
+      - cron_config:/config
+    command: ["cron", "-f"]
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "cron"]
+    environment:
+      - APP_NAME=congel
+    secrets:
+      - congel_DB_PASSWORD
+      - congel_REDIS_PASSWORD
+      - congel_APP_URL
+      - congel_APP_KEY
+      - congel_APP_DOMAIN
+      - congel_FTP_HOST
+      - congel_FTP_USERNAME
+      - congel_FTP_PASSWORD
     entrypoint: start-container
     networks:
       - congel
@@ -29,7 +57,10 @@ services:
 volumes:
   congel_app_data:
   congel_app_config:
-  ########################
+  ##################################################
+  congel_cron_data:
+  congel_cron_config:
+  ##################################################
   congel_storage:
   ##################################################
 secrets:
@@ -47,6 +78,13 @@ secrets:
     external: true
   congel_APP_DOMAIN:
     external: true
+  congel_FTP_HOST:
+    external: true
+  congel_FTP_USERNAME:
+    external: true
+  congel_FTP_PASSWORD:
+    external: true
+
 networks:
   congel:
     external: true
