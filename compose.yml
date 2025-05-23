@@ -19,7 +19,9 @@ services:
       - congel_REDIS_PASSWORD
       - congel_APP_URL
       - congel_APP_KEY
-      - congel_APP_DOMAIN
+      - congel_MAIL_USERNAME
+      - congel_MAIL_PASSWORD
+      - congel_MAIL_FROM_ADDRESS
       - congel_FTP_HOST
       - congel_FTP_USERNAME
       - congel_FTP_PASSWORD
@@ -46,7 +48,9 @@ services:
       - congel_REDIS_PASSWORD
       - congel_APP_URL
       - congel_APP_KEY
-      - congel_APP_DOMAIN
+      - congel_MAIL_USERNAME
+      - congel_MAIL_PASSWORD
+      - congel_MAIL_FROM_ADDRESS
       - congel_FTP_HOST
       - congel_FTP_USERNAME
       - congel_FTP_PASSWORD
