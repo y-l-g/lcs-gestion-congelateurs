@@ -14,13 +14,26 @@ RUN set -eux; \
     apt-get update \
     && apt-get install -y --no-install-recommends\
     acl \
-    # cron \
     file \
     gettext \
     procps \
     nodejs \
     npm \
-    # mysql-client \
+    && apt-get install -y --no-install-recommends \
+    cron \
+    mysql-client \
+    && apt-get clean
+
+RUN set -eux; \
+    apt-get update \
+    && apt-get install -y --no-install-recommends\
+    cron \
+    && apt-get clean
+
+RUN set -eux; \
+    apt-get update \
+    && apt-get install -y --no-install-recommends\
+    mysql-client \
     && apt-get clean
 
 RUN set -eux; \
