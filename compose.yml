@@ -34,6 +34,7 @@ services:
     volumes:
       - congel_cron_data:/data
       - congel_cron_config:/config
+      - congel_storage:/app/storage
     command: ["cron", "-f"]
     healthcheck:
       test: ["CMD", "pgrep", "-f", "cron"]
