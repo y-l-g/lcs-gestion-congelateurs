@@ -30,7 +30,7 @@ RUN set -eux; \
 RUN set -eux; \
     apt-get update \
     && apt-get install -y --no-install-recommends\
-    mysql-client \
+    mariadb-client \
     && apt-get clean
 
 RUN set -eux; \
