@@ -96,7 +96,6 @@ secrets:
     external: true
   congel_MAIL_PASSWORD:
     external: true
-
 networks:
   congel:
     external: true

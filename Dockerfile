@@ -19,17 +19,7 @@ RUN set -eux; \
     procps \
     nodejs \
     npm \
-    && apt-get clean
-
-RUN set -eux; \
-    apt-get update \
-    && apt-get install -y --no-install-recommends\
     cron \
-    && apt-get clean
-
-RUN set -eux; \
-    apt-get update \
-    && apt-get install -y --no-install-recommends\
     mariadb-client \
     && apt-get clean
 
@@ -43,9 +33,6 @@ RUN set -eux; \
     intl \
     zip \
     ftp
-
-RUN echo "* * * * * root /usr/local/bin/php /app/artisan schedule:run >> /var/log/cron.log 2>&1" > /etc/cron.d/schedule
-RUN chmod 0644 /etc/cron.d/schedule
 
 #####################################################
 
@@ -71,7 +58,7 @@ ENV APP_ENV=prod
 COPY --link composer.json composer.lock ./
 
 RUN composer install \
-    --no-dev \
+    # --no-dev \
     --no-interaction \
     --no-autoloader \
     --no-ansi \
@@ -80,7 +67,7 @@ RUN composer install \
 COPY --link . .
 
 RUN composer dump-autoload \
-    --no-dev \
+    # --no-dev \
     --classmap-authoritative \
     --optimize \
     --no-ansi \
@@ -96,3 +83,8 @@ RUN chown -R ${USER}:${USER} /data
 RUN chown -R ${USER}:${USER} /config
 
 USER ${USER}
+
+#####################################################
+
+RUN echo "* * * * * root /usr/local/bin/php /app/artisan schedule:run >> /var/log/cron.log 2>&1" > /etc/cron.d/schedule
+RUN chmod 0644 /etc/cron.d/schedule
