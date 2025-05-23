@@ -4,4 +4,4 @@ use Illuminate\Support\Facades\Schedule;
 
 Schedule::command('backup:clean')->daily()->at('01:00');
 Schedule::command('backup:run')->daily()->at('01:30');
-$schedule->command('backup:monitor')->daily()->at('03:00');
+Schedule::command('backup:monitor')->daily()->at('03:00');
