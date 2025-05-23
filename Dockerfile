@@ -2,7 +2,7 @@
 # FrankenPHP
 ###########################################
 
-FROM dunglas/frankenphp:1.6
+FROM dunglas/frankenphp:1.6 AS common
 
 ARG USER=youenn
 
@@ -34,8 +34,6 @@ RUN set -eux; \
     intl \
     zip \
     ftp
-
-ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN echo "* * * * * root /usr/local/bin/php /app/artisan schedule:run >> /var/log/cron.log 2>&1" > /etc/cron.d/schedule
 RUN chmod 0644 /etc/cron.d/schedule
