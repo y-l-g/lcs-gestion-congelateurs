@@ -5,8 +5,6 @@ services:
   app:
     image: ghcr.io/y-l-g/lcs-gestion-congelateurs:main
     volumes:
-      - congel_app_data:/data
-      - congel_app_config:/config
       - congel_storage:/app/storage
     healthcheck:
       test: ["CMD", "php", "artisan", "octane:status"]
@@ -35,8 +33,6 @@ services:
     image: ghcr.io/y-l-g/lcs-gestion-congelateurs:main
     user: root
     volumes:
-      - congel_cron_data:/data
-      - congel_cron_config:/config
       - congel_storage:/app/storage
     command: ["cron", "-f"]
     healthcheck:
@@ -61,12 +57,6 @@ services:
   # VOLUMES
   ##################################################
 volumes:
-  congel_app_data:
-  congel_app_config:
-  ##################################################
-  congel_cron_data:
-  congel_cron_config:
-  ##################################################
   congel_storage:
   ##################################################
 secrets:
