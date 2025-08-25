@@ -84,7 +84,7 @@ RUN chown -R ${USER}:${USER} /config
 
 #####################################################
 
-RUN echo "* * * * * ${USER} /usr/local/bin/php /app/artisan schedule:run >> /var/log/cron.log 2>&1" > /etc/cron.d/schedule
+RUN echo "* * * * * /usr/local/bin/php /app/artisan schedule:run >> /var/log/cron.log 2>&1" > /etc/cron.d/schedule
 RUN chmod 0644 /etc/cron.d/schedule
 
 #####################################################
